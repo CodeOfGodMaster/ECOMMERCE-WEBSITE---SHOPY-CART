@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+
+<style>
+  label {
+    text-align: left;
+    display: block; /* Ensures each label occupies a new line */
+    margin-bottom: 5px; /* Adds some spacing between labels and form fields */
+  }
+</style>
+
+<div class="card bg-light p-5">
+  
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+
+
+  <h4 class="text-dark">Login</h4>
+  <form action="/auth/login/" method="post">{% csrf_token %} 
+    <br>
+
+    <div class="container">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control p-2" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="pass1">Password</label>
+        <input type="password" class="form-control p-2" id="pass1" name="pass1" required>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-dark">Login</button>
+      <br>
+      
+      <span> Forget Password? <a href="/auth/request-reset-email/">Reset</a></span>
+      <br>
+      <br>
+      <p>New User? <a href="/auth/signup/">SignUp</a></p>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

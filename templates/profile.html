@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+<section id="portfolio" class="portfolio">
+    <div class="container">
+        <h1 style="margin-top: 40px;">My Profile</h1>
+
+        <table class="table table-info table-striped" style="border: 2px solid black;">
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">Amount Paid</th>
+                    <th scope="col">Payment Status</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Delivery Status</th>
+                    <th scope="col">Delivered</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                {% for update in status %}
+                {% for entry in update %}
+                {% if item.order_id == entry.order_id %}
+                <tr>
+                    
+                    <td>{{ item.order_id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.items_json }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.paymentstatus }}</td>
+                    <td>{{ item.address1 }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>{{ entry.update_desc }}</td>
+                    <td>{% if entry.delivered %}<i class="fa-solid fa-circle-check"></i> Delivered{% else %}<i class="fa-solid fa-truck"></i> Not Delivered{% endif %}</td>
+                    <td>{{ entry.timestamp }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if items.has_other_pages %}
+        <ul class="pagination">
+            {% if items.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ items.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+            {% for i in items.paginator.page_range %}
+            <li class="page-item {% if items.number == i %}active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+            {% if items.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ items.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ items.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+</section>
+<style>
+    
+    .pagination a {
+        color: black;
+        padding: 12px 16px; /* Increase padding to increase box size */
+        border: 1px solid black; /* Add border */
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+    
+    .pagination .active {
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+    }
+    </style>
+
+    
+{% endblock content %}
